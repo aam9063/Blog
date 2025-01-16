@@ -1,16 +1,25 @@
-<nav class="navbar navbar-dark bg-dark">
-    <div class="container">
-        <!-- Título o nombre del blog -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
         <a class="navbar-brand" href="{{ route('inicio') }}">Blog</a>
-
-        <!-- Enlaces de navegación -->
-        <ul class="flex-row navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link px-2 {{ request()->routeIs('inicio') ? 'active' : '' }}" href="{{ route('inicio') }}">Inicio</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link px-2 {{ request()->routeIs('posts_listado') ? 'active' : '' }}" href="{{ route('posts_listado') }}">Listado de posts</a>
-            </li>
-        </ul>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('inicio') }}">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('posts.index') }}">Listado de posts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('posts.create') }}">Crear post</a>
+                </li>
+            </ul>
+            <!-- fecha actual -->
+            <span class="text-white navbar-text">
+                {{ CurrentDate('d/m/Y') }}
+            </span>
+        </div>
     </div>
 </nav>
