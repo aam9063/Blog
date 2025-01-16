@@ -11,7 +11,16 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('posts.index');
+        $post = array(
+            array('id' => 1, 'title' => 'Post 1'),
+            array('id' => 2, 'title' => 'Post 2'),
+            array('id' => 3, 'title' => 'Post 3'),
+            array('id' => 4, 'title' => 'Post 4'),
+            array('id' => 5, 'title' => 'Post 5'),
+
+        );
+
+        return view('posts.index', compact('post'));
     }
 
     /**
@@ -21,7 +30,7 @@ class PostController extends Controller
     {
        // return 'Nuevo post'; Exercise 1
 
-       return redirect()->route('inicio');
+       return 'Nuevo post';
     }
 
     /**
