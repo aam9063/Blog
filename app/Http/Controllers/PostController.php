@@ -30,7 +30,8 @@ class PostController extends Controller
     {
        // return 'Nuevo post'; Exercise 1
 
-       return 'Nuevo post';
+       return redirect()->route('inicio');
+
     }
 
     /**
