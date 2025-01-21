@@ -24,5 +24,13 @@ Route::get('/', function () {
 // })->where('id', '[0-9]+')->name('posts_ficha');
 
 
-Route::resource('posts', PostController::class)->only(['index', 'show', 'create', 'edit']);
+ //Route::resource('posts', PostController::class)->only(['index', 'show', 'create', 'edit']);
+
+
+ // Rutas para pruebas
+ Route::get('/posts/nuevoPrueba', [PostController::class, 'nuevoPrueba'])->name('posts.nuevoPrueba');
+ Route::get('/posts/editarPrueba/{id}', [PostController::class, 'editarPrueba'])->name('posts.editarPrueba');
+
+ // Rutas de recursos (para index, show, etc.)
+ Route::resource('posts', PostController::class);
 

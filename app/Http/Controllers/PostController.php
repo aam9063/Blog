@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
+use App\Models\Post;
 
 class PostController extends Controller
 {
@@ -11,27 +13,24 @@ class PostController extends Controller
      */
     public function index()
     {
-        $post = array(
-            array('id' => 1, 'title' => 'Post 1'),
-            array('id' => 2, 'title' => 'Post 2'),
-            array('id' => 3, 'title' => 'Post 3'),
-            array('id' => 4, 'title' => 'Post 4'),
-            array('id' => 5, 'title' => 'Post 5'),
+        // Obtén los posts paginados
+        $posts = Post::orderBy('titulo', 'asc')->paginate(5);
 
-        );
-
-        return view('posts.index', compact('post'));
+        // Retorna la vista con los datos paginados
+        return view('posts.index', compact('posts'));
     }
+
+
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-       // return 'Nuevo post'; Exercise 1
+        // return 'Nuevo post'; Exercise 1
 
-       return redirect()->route('inicio');
-
+        return redirect()->route('inicio');
     }
 
     /**
@@ -45,10 +44,12 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show ($id)
+    public function show($id)
     {
-        return view('posts.show', ['id' => $id]);
+        $post = Post::findOrFail($id); // Busca el post por su id y si no lo encuentra lanza una excepción
+        return view('post.show', compact('post')); // Retorna la vista con el post
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -72,8 +73,29 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $post->delete();
+        return redirect()->route('posts.index');
+    }
+
+    public function nuevoPrueba()
+    {
+        Post::create([
+            'titulo' => 'Title ' . rand(1, 100),
+            'contenido' => 'Content ' . rand(1, 255),
+        ]);
+        return redirect()->route('posts.index');
+    }
+
+    public function editarPrueba($id)
+    {
+        $post = Post::findOrFail($id);
+        $post->update([
+            'titulo' => 'Updated Title ' . rand(1, 100),
+            'contenido' => 'Updated Content ' . rand(1, 255),
+        ]);
+        return redirect()->route('posts.index');
     }
 }
