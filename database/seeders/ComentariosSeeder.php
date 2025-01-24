@@ -16,3 +16,5 @@ class ComentariosSeeder extends Seeder
         });
     }
 }
+
+// Aplicamos las migraciones y los seeders reiniciando la base de datos y rellenar con datos: php artisan migrate:fresh --seed

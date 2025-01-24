@@ -50,11 +50,11 @@ class Usuario extends Authenticatable
 
     public function posts()
     {
-        return $this->hasMany(Post::class, 'usuario_id');
+        return $this->hasMany(Post::class, 'usuario_id'); // 'usuario_id' es la clave foránea
     }
 
     public function comentarios()
     {
-        return $this->hasMany(\App\Models\Comentario::class, 'usuario_id');
+        return $this->hasMany(Comentario::class, 'usuario_id');
     }
 }

@@ -19,3 +19,6 @@ class PostFactory extends Factory
         ];
     }
 }
+
+// php artisan make:seeder PostsSeeder | Seeder para generar posts de prueba
+

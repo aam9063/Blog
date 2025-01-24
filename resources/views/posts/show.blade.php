@@ -4,7 +4,7 @@
 
 @section('content')
     <h1>{{ $post->titulo }}</h1>
-    <p>Escrito por {{ $post->usuario->login }} el {{ $post->created_at->format('d/m/Y') }}</p>
+    <p>Escrito por {{ $post->usuario->login }} el {{ $post->created_at->format('d/m/Y') }}</p> <!-- Aquí usamos Carbon para formatear la fecha -->
     <p>{{ $post->contenido }}</p>
 
     <h2>Comentarios</h2>

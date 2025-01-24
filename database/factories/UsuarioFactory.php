@@ -13,9 +13,14 @@ class UsuarioFactory extends Factory
     {
         return [
             'login' => $this->faker->unique()->word(),
-            'password' => $this->faker->word(), // Sin encriptar
+            'password' => $this->faker->word(), // Sin encriptar la contraseña para que sea más fácil de recordar
         ];
     }
+
+    // php artisan make:seeder UsuariosSeeder | Seeder para generar 3 usuarios de prueba
+    // php artisan make:factory PostFactory --model=Post | Factory para generar el factory de Post
+
+
 
 
 

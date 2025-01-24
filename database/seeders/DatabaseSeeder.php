@@ -8,6 +8,7 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
+        // Aqui hay que añadir los seeders que hemos creado y queremos ejecutar
         $this->call([
             UsuariosSeeder::class,
             PostsSeeder::class,
@@ -15,3 +16,8 @@ class DatabaseSeeder extends Seeder
         ]);
     }
 }
+
+/*
+Para eliminar los datos existentes y rellenar la base de datos con los nuevos elementos, usa el comando:
+php artisan migrate:fresh --seed
+*/

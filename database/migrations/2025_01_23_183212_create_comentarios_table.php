@@ -11,8 +11,8 @@ return new class extends Migration
         Schema::create('comentarios', function (Blueprint $table) {
             $table->id();
             $table->text('contenido');
-            $table->foreignId('usuario_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('post_id')->constrained('posts')->cascadeOnDelete();
+            $table->foreignId('usuario_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('post_id')->constrained('posts')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -22,3 +22,7 @@ return new class extends Migration
         Schema::dropIfExists('comentarios');
     }
 };
+
+// Después de esto, creamos el controlador:
+// php artisan make:controller ComentarioController
+

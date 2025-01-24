@@ -20,3 +20,5 @@ class ComentarioFactory extends Factory
         ];
     }
 }
+
+// Generamos el seeder de Comentario: php artisan make:seeder ComentariosSeeder
