@@ -47,7 +47,7 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::findOrFail($id); // Busca el post por su id y si no lo encuentra lanza una excepción
-        return view('post.show', compact('post')); // Retorna la vista con el post
+        return view('posts.show', compact('post')); // Retorna la vista con el post
     }
 
 

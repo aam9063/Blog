@@ -30,6 +30,7 @@ Route::get('/', function () {
  // Rutas para pruebas
  Route::get('/posts/nuevoPrueba', [PostController::class, 'nuevoPrueba'])->name('posts.nuevoPrueba');
  Route::get('/posts/editarPrueba/{id}', [PostController::class, 'editarPrueba'])->name('posts.editarPrueba');
+ Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
 
  // Rutas de recursos (para index, show, etc.)
  Route::resource('posts', PostController::class);

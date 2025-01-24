@@ -7,15 +7,16 @@
     <ul>
         @foreach ($posts as $post)
             <li>
-                {{ $post->titulo }}
-                <a href="{{ route('posts.show', $post->id) }}">Editar</a>
+                <strong>{{ $post->titulo }}</strong>
+                ({{ $post->usuario ? $post->usuario->login : 'Usuario desconocido' }})
+                <a href="{{ route('posts.show', $post->id) }}">Ver</a>
                 <form action="{{ route('posts.destroy', $post->id) }}" method="POST" style="display:inline;">
-                    @csrf <!-- token de seguridad -->
-                    @method('DELETE') <!-- método de spoofing que permite enviar un formulario como DELETE -->
+                    @csrf
+                    @method('DELETE')
                     <button type="submit">Eliminar</button>
                 </form>
             </li>
         @endforeach
     </ul>
-    {{ $posts->links() }} <!-- links() lo que hace es mostrar los enlaces de paginación -->
+    {{ $posts->links() }}
 @endsection
