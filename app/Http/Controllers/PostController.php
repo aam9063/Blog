@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Usuario;
+use App\Models\Comentario;
+use App\Http\Requests\PostRequest;
 
 class PostController extends Controller
 {
@@ -28,17 +31,31 @@ class PostController extends Controller
      */
     public function create()
     {
-        // return 'Nuevo post'; Exercise 1
-
-        return redirect()->route('inicio');
+        // En su lugar, mostrar la vista del formulario
+        return view('posts.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        //
+        // Los datos ya están validados por el PostRequest
+        $usuario = Usuario::first();
+        if (!$usuario) {
+            $usuario = Usuario::create([
+                'login' => 'default_user',
+                'password' => bcrypt('password')
+            ]);
+        }
+
+        Post::create([
+            'titulo' => $request->titulo,
+            'contenido' => $request->contenido,
+            'usuario_id' => $usuario->id
+        ]);
+
+        return redirect()->route('posts.index');
     }
 
     /**
@@ -56,18 +73,23 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        // return 'Edición del post ' . $id;
-        // Editar un post: http://localhost:8000/posts/1/editar
-
-        return redirect()->route('inicio');
+        $post = Post::findOrFail($id);
+        return view('posts.edit', compact('post'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PostRequest $request, $id)
     {
-        //
+        // Los datos ya están validados por el PostRequest
+        $post = Post::findOrFail($id);
+        $post->update([
+            'titulo' => $request->titulo,
+            'contenido' => $request->contenido
+        ]);
+
+        return redirect()->route('posts.show', $post->id);
     }
 
     /**
@@ -75,8 +97,13 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
+        // Primero eliminamos los comentarios asociados
+        Comentario::where('post_id', $id)->delete();
+
+        // Luego eliminamos el post
         $post = Post::findOrFail($id);
         $post->delete();
+
         return redirect()->route('posts.index');
     }
 

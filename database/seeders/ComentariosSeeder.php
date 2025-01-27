@@ -12,7 +12,7 @@ class ComentariosSeeder extends Seeder
     {
         // Generar 3 comentarios por cada post
         Post::all()->each(function ($post) {
-            Comentario::factory(3)->create(['post_id' => $post->id]);
+            Comentario::factory(5)->create(['post_id' => $post->id]);
         });
     }
 }
