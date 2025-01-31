@@ -8,17 +8,25 @@
         @foreach ($posts as $post)
             <li>
                 <strong>{{ $post->titulo }}</strong>
-                <!-- $post->usuario->login Obtenemos el login del usuario asociado al post -->
-                <!-- Si el post tiene un usuario asociado, mostramos el login del usuario, si no, mostramos 'Usuario desconocido' -->
-                ({{ $post->usuario ? $post->usuario->login : 'Usuario desconocido' }})
+                ({{ $post->usuario->login }})
+
                 <a href="{{ route('posts.show', $post->id) }}">Ver</a>
-                <form action="{{ route('posts.destroy', $post->id) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit">Eliminar</button>
-                </form>
+
+                @auth
+                    @if (Auth::user()->role === 'admin' || Auth::user()->id === $post->usuario_id)
+                        <a href="{{ route('posts.edit', $post->id) }}">Editar</a>
+                        <form action="{{ route('posts.destroy', $post->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit">Eliminar</button>
+                        </form>
+                    @endif
+                @endauth
             </li>
         @endforeach
     </ul>
+
     {{ $posts->links() }}
 @endsection
+
+<!-- Esto asegura que solo el dueño del post pueda editarlo o eliminarlo. -->

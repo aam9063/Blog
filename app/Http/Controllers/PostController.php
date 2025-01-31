@@ -8,12 +8,24 @@ use App\Models\Post;
 use App\Models\Usuario;
 use App\Models\Comentario;
 use App\Http\Requests\PostRequest;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Auth;
+
 
 class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
     public function index()
     {
         // Obtén los posts paginados
@@ -68,44 +80,35 @@ class PostController extends Controller
     }
 
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        $post = Post::findOrFail($id);
+        if (Auth::user()->role !== 'admin' && Auth::user()->id !== $post->usuario_id) {
+            return redirect()->route('posts.index')->with('error', 'No tienes permiso para editar este post.');
+        }
+
         return view('posts.edit', compact('post'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(PostRequest $request, $id)
+    public function update(Request $request, Post $post)
     {
-        // Los datos ya están validados por el PostRequest
-        $post = Post::findOrFail($id);
-        $post->update([
-            'titulo' => $request->titulo,
-            'contenido' => $request->contenido
-        ]);
+        if (Auth::user()->role !== 'admin' && Auth::user()->id !== $post->usuario_id) {
+            return redirect()->route('posts.index')->with('error', 'No tienes permiso para actualizar este post.');
+        }
 
-        return redirect()->route('posts.show', $post->id);
+        $post->update($request->all());
+        return redirect()->route('posts.index')->with('success', 'Post actualizado con éxito.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        // Primero eliminamos los comentarios asociados
-        Comentario::where('post_id', $id)->delete();
+        if (Auth::user()->role !== 'admin' && Auth::user()->id !== $post->usuario_id) {
+            return redirect()->route('posts.index')->with('error', 'No tienes permiso para eliminar este post.');
+        }
 
-        // Luego eliminamos el post
-        $post = Post::findOrFail($id);
         $post->delete();
-
-        return redirect()->route('posts.index');
+        return redirect()->route('posts.index')->with('success', 'Post eliminado con éxito.');
     }
+
 
     public function nuevoPrueba()
     {
