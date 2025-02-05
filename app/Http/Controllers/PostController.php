@@ -21,6 +21,7 @@ class PostController extends Controller
      * Display a listing of the resource.
      */
 
+
     public function __construct()
     {
         $this->middleware('auth')->except(['index', 'show']);
@@ -89,7 +90,7 @@ class PostController extends Controller
         return view('posts.edit', compact('post'));
     }
 
-    public function update(Request $request, Post $post)
+    public function update(PostRequest $request, Post $post)
     {
         if (Auth::user()->role !== 'admin' && Auth::user()->id !== $post->usuario_id) {
             return redirect()->route('posts.index')->with('error', 'No tienes permiso para actualizar este post.');
